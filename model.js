@@ -4,7 +4,7 @@ const schema = mongoose.Schema({
   username: String,
   exercises: {
     description: String,
-    duration: String,
+    duration: Number,
     date: String
   }
 });
