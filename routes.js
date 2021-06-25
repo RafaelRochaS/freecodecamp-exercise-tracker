@@ -55,4 +55,14 @@ router.post('/users/:id/exercises', async (req, res) => {
   }
 });
 
+router.get('/users/:id/logs', async (req, res) => {
+  try {
+    const results = await User.find({ _id: req.params.id });
+    res.send({ log: [results] });
+  } catch {
+    res.status(404);
+    res.send({ error: "User doesn't exist!" });
+  }
+});
+
 module.exports = router;
