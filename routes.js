@@ -2,6 +2,10 @@ const express = require("express");
 const User = require("./model");
 const router = express.Router();
 
+function isValidDate(d) {
+  return d instanceof Date && !isNaN(d);
+}
+
 router.get('/', async (req, res) => {
   res.send({ status: 'online' });
 })
@@ -57,12 +61,13 @@ router.post('/users/:id/exercises', async (req, res) => {
 
 router.get('/users/:id/logs', async (req, res) => {
   try {
+    const results = await User.find({ _id: req.params.id });
     if (req.query.to && req.query.from) {
-      results = await User.find({
-        _id: req.params.id, date: { $gte: req.query.from, $lte: req.query.to }
-      });
-    } else {
-      results = await User.find({ _id: req.params.id });
+      if (isValidDate(toDate)) { // credit https://github.com/npwilliams09/FCC-Back-End/blob/master/Excercise%20Tracker/server.js
+        results = results.filter((item) => (item.date >= fromDate && item.date <= toDate));
+      } else if (isValidDate(fromDate)) {
+        results = results.filter((item) => (item.date >= fromDate))
+      }
     }
     let log = [results]
     console.log(`Results: ${results}`);
