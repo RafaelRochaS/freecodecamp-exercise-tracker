@@ -36,15 +36,15 @@ router.post('/users/:id/exercises', async (req, res) => {
     const user = await User.findOne({ _id: req.params.id });
 
     if (req.body.description) {
-      user.log.description = req.body.description;
+      user.description = req.body.description;
     }
     if (req.body.duration) {
-      user.log.duration = req.body.duration;
+      user.duration = req.body.duration;
     }
     if (req.body.date) {
-      user.log.date = req.body.date;
+      user.date = req.body.date;
     } else {
-      user.log.date = new Date();
+      user.date = new Date();
     }
 
     await user.save();

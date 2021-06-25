@@ -2,11 +2,9 @@ const mongoose = require("mongoose");
 
 const schema = mongoose.Schema({
   username: String,
-  log: [{
-    description: String,
-    duration: Number,
-    date: String
-  }]
+  description: String,
+  duration: Number,
+  date: Date
 });
 
 module.exports = mongoose.model("User", schema);
