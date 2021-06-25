@@ -58,7 +58,8 @@ router.post('/users/:id/exercises', async (req, res) => {
 router.get('/users/:id/logs', async (req, res) => {
   try {
     const results = await User.find({ _id: req.params.id });
-    res.send({ log: [results] });
+    let log = [results]
+    res.send({ log: log, count: log.length });
   } catch {
     res.status(404);
     res.send({ error: "User doesn't exist!" });
