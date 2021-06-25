@@ -31,28 +31,28 @@ router.post('/users', async (req, res) => {
   res.send(user);
 });
 
-// router.post('/users/:id/exercises', async (req, res) => {
-//   try {
-//     const user = await User.findOne({ _id: req.params.id });
+router.post('/users/:id/exercises', async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.params.id });
 
-//     if (req.body.description) {
-//       user.exercises.description = req.body.description;
-//     }
-//     if (req.body.duration) {
-//       user.exercises.duration = req.body.duration;
-//     }
-//     if (req.body.date) {
-//       user.exercises.date = req.body.date;
-//     } else {
-//       user.exercises.date = new Date();
-//     }
+    if (req.body.description) {
+      user.log.description = req.body.description;
+    }
+    if (req.body.duration) {
+      user.log.duration = req.body.duration;
+    }
+    if (req.body.date) {
+      user.log.date = req.body.date;
+    } else {
+      user.log.date = new Date();
+    }
 
-//     await user.save();
-//     res.send(user);
-//   } catch {
-//     res.status(404);
-//     res.send({ error: "Post doesn't exist!" });
-//   }
-// });
+    await user.save();
+    res.send(user);
+  } catch {
+    res.status(404);
+    res.send({ error: "Post doesn't exist!" });
+  }
+});
 
 module.exports = router;
