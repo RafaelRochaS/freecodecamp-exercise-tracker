@@ -5,6 +5,6 @@ const schema = mongoose.Schema({
   description: String,
   duration: Number,
   date: Date
-});
+}, { versionKey: false });
 
 module.exports = mongoose.model("User", schema);
