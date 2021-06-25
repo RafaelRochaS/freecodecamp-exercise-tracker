@@ -42,7 +42,7 @@ router.post('/users/:id/exercises', async (req, res) => {
       user.duration = req.body.duration;
     }
     if (req.body.date) {
-      user.date = req.body.date;
+      user.date = new Date(req.body.date).toDateString();
     } else {
       user.date = new Date().toDateString();
     }
