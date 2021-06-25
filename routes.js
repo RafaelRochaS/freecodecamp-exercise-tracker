@@ -57,7 +57,6 @@ router.post('/users/:id/exercises', async (req, res) => {
 
 router.get('/users/:id/logs', async (req, res) => {
   try {
-    let results;
     if (req.query.to && req.query.from) {
       results = await User.find({
         _id: req.params.id, date: { $gte: req.query.from, $lte: req.query.to }
@@ -66,8 +65,10 @@ router.get('/users/:id/logs', async (req, res) => {
       results = await User.find({ _id: req.params.id });
     }
     let log = [results]
+    console.log(`Results: ${results}`);
     if (req.query.limit) {
-      log = log.splice(0, limit);
+      console.log(`Limit: ${limit} type: ${typeof limit}`)
+      log = log.splice(0, parseInt(limit));
     }
     res.send({ log: log, count: log.length });
   } catch {
