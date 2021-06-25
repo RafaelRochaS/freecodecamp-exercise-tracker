@@ -1,8 +1,12 @@
 const mongoose = require("mongoose");
 
 const schema = mongoose.Schema({
-  name: String,
-  test: Number,
+  username: String,
+  exercises: {
+    description: String,
+    duration: String,
+    date: String
+  }
 });
 
-module.exports = mongoose.model("Test", schema);
+module.exports = mongoose.model("User", schema);
