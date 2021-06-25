@@ -21,7 +21,6 @@ router.get('/users/:id', async (req, res) => {
   }
 });
 
-
 router.post('/users', async (req, res) => {
   const user = new User({
     username: req.body.username,
@@ -31,5 +30,9 @@ router.post('/users', async (req, res) => {
   await user.save();
   res.send(user);
 });
+
+router.post('/users/:id/exercises', async (req, res) => {
+  res.status(500).send({ error: 'not implemented' });
+})
 
 module.exports = router;
