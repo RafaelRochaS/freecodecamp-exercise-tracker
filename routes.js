@@ -2,6 +2,10 @@ const express = require("express");
 const User = require("./model");
 const router = express.Router();
 
+router.get('/', async (req, res) => {
+  res.send({ status: 'online' });
+})
+
 router.get('/users', async (req, res) => {
   const users = await User.find();
   res.send(users);
