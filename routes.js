@@ -48,7 +48,7 @@ router.post('/users/:id/exercises', async (req, res) => {
 
     userExercises.push({
       description: req.body.description,
-      duration: req.body.duration,
+      duration: parseInt(req.body.duration),
       date: (req.body.date) ? new Date(req.body.date).toDateString() : new Date().toDateString()
     });
 
@@ -59,7 +59,7 @@ router.post('/users/:id/exercises', async (req, res) => {
       _id: req.params.id,
       username: user.username,
       date: userExercises[userExercises.length - 1].date,
-      duration: req.body.duration,
+      duration: parseInt(req.body.duration),
       description: req.body.description
     });
   } catch {
@@ -70,7 +70,7 @@ router.post('/users/:id/exercises', async (req, res) => {
 
 router.get('/users/:id/logs', async (req, res) => {
   try {
-    const results = await User.find({ _id: req.params.id });
+    const results = await User.find({ _id: req.params.id }).exercises;
     if (req.query.to && req.query.from) {
       if (isValidDate(toDate)) { // credit https://github.com/npwilliams09/FCC-Back-End/blob/master/Excercise%20Tracker/server.js
         results = results.filter((item) => (item.date >= fromDate && item.date <= toDate));
