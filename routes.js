@@ -38,21 +38,30 @@ router.post('/users', async (req, res) => {
 router.post('/users/:id/exercises', async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.params.id });
+    let userExercises;
 
-    if (req.body.description) {
-      user.description = req.body.description;
-    }
-    if (req.body.duration) {
-      user.duration = req.body.duration;
-    }
-    if (req.body.date) {
-      user.date = new Date(req.body.date).toDateString();
+    if (user.exercises) {
+      userExercises = user.exercises;
     } else {
-      user.date = new Date().toDateString();
+      userExercises = [];
     }
+
+    userExercises.push({
+      description: req.body.description,
+      duration: req.body.duration,
+      date: (req.body.date) ? new Date(req.body.date).toDateString() : new Date().toDateString()
+    });
+
+    user.exercises = userExercises;
 
     await user.save();
-    res.send(user);
+    res.send({
+      _id: user._id,
+      username: user.username,
+      date: userExercises[userExercises.length - 1].date,
+      duration: req.body.duration,
+      description: req.body.description
+    });
   } catch {
     res.status(404);
     res.send({ error: "User doesn't exist!" });
