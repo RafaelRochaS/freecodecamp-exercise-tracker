@@ -56,7 +56,7 @@ router.post('/users/:id/exercises', async (req, res) => {
 
     await user.save();
     res.send({
-      _id: user._id,
+      _id: req.params.id,
       username: user.username,
       date: userExercises[userExercises.length - 1].date,
       duration: req.body.duration,
