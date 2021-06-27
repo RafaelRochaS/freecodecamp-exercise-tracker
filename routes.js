@@ -69,22 +69,26 @@ router.post('/users/:id/exercises', async (req, res) => {
 });
 
 router.get('/users/:id/logs', async (req, res) => {
+
   try {
-    const results = await User.find({ _id: req.params.id }).exercises;
+    const results = await User.findOne({ _id: req.params.id });
+    let exercises = results.exercises;
     if (req.query.to && req.query.from) {
+      let toDate = new Date(req.query.to);
+      let fromDate = new Date(req.query.from);
       if (isValidDate(toDate)) { // credit https://github.com/npwilliams09/FCC-Back-End/blob/master/Excercise%20Tracker/server.js
-        results = results.filter((item) => (item.date >= fromDate && item.date <= toDate));
+        exercises = exercises.filter((item) => (new Date(item.date) >= fromDate && new Date(item.date) <= toDate));
       } else if (isValidDate(fromDate)) {
-        results = results.filter((item) => (item.date >= fromDate))
+        exercises = exercises.filter((item) => (new Date(item.date) >= fromDate))
       }
     }
-    let log = [results]
-    console.log(`Results: ${results}`);
+    console.log(`Results: ${exercises}`);
+
     if (req.query.limit) {
-      console.log(`Limit: ${limit} type: ${typeof limit}`)
-      log = log.splice(0, parseInt(limit));
+      console.log(`Limit: ${req.query.limit}\tType: ${typeof req.query.limit}\tParseint: ${parseInt(req.query.limit, 10)}`);
+      exercises = exercises.splice(0, parseInt(req.query.limit));
     }
-    res.send({ log: log, count: log.length });
+    res.send({ log: exercises, count: exercises.length });
   } catch {
     res.status(404);
     res.send({ error: "User doesn't exist!" });
